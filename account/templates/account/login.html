@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+  {% block title %}Вход на сайт{% endblock title %}
+{% block content %}
+ <section class="s-content s-content--top-padding s-content--narrow">
+
+        <div class="row narrow">
+            <div class="col-full s-content__header">
+                <h1 class="display-1 display-1--with-line-sep">Log in</h1>
+                <p class="lead">
+                    If you want, you can register in our blog!
+                </p>
+            </div>
+        </div>
+    <form name="cForm" id="cForm" class="contact-form" method="post" action="">
+                    <fieldset>
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Войти</button>
+              </fieldset>
+    </form>
+{% endblock content %}

@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="s-content s-content--top-padding s-content--narrow">
+
+        <div class="row narrow">
+            <div class="col-full s-content__header">
+                <h1 class="display-1 display-1--with-line-sep">Delete Post:</h1>
+                <p class="lead">
+                    Are you sure want to delete this recipe?
+                </p>
+            </div>
+        </div>
+    <form method="post">
+    {% csrf_token %}
+     <input class="btn btn-primary" type="submit" value="Yes">
+     <a class="btn" href="{% url 'home' %}" role="button">Cancel</a>
+     </form>
+
+{% endblock %}

@@ -1,0 +1,150 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<!-- featured
+    ================================================== -->
+    <section class="s-featured">
+        <div class="row">
+            <div class="col-full">
+
+                <div class="featured-slider featured" data-aos="zoom-in">
+
+                    <div class="featured__slide">
+                        <div class="entry">
+
+                            <div class="entry__background" style="background-image:url({% static 'images/it.jpeg'%});"></div>
+
+                            <div class="entry__content">
+                                <span class="entry__category"><a href="#0">IT</a></span>
+
+                                <h1><a href="#0" title="">"It's better to invent tomorrow than worry about yesterday being so-so."»</a></h1>
+
+                                <div class="entry__info">
+                                    <a href="#0" class="entry__profile-pic">
+                                        <img class="avatar" src="{% static 'images/it.jpeg'%}" alt="">
+                                    </a>
+                                    <ul class="entry__meta">
+                                        <li><a href="#0">Steve Jobs</a></li>
+                                        <li>June 02, 2018</li>
+                                    </ul>
+                                </div>
+                            </div> <!-- end entry__content -->
+
+                        </div> <!-- end entry -->
+                    </div> <!-- end featured__slide -->
+
+                    <div class="featured__slide">
+
+                        <div class="entry">
+
+                            <div class="entry__background" style="background-image:url({% static 'images/it.jpeg'%});"></div>
+
+                            <div class="entry__content">
+                                <span class="entry__category"><a href="#0">Management</a></span>
+
+                                <h1><a href="#0" title="">The Pomodoro Technique Really Works.</a></h1>
+
+                                <div class="entry__info">
+                                    <a href="#0" class="entry__profile-pic">
+                                        <img class="avatar" src="images/avatars/user-03.jpg" alt="">
+                                    </a>
+
+                                    <ul class="entry__meta">
+                                        <li><a href="#0">John Doe</a></li>
+                                        <li>June 13, 2018</li>
+                                    </ul>
+                                </div>
+                            </div> <!-- end entry__content -->
+
+                        </div> <!-- end entry -->
+
+                    </div> <!-- end featured__slide -->
+
+                    <div class="featured__slide">
+
+                        <div class="entry">
+
+                            <div class="entry__background" style="background-image:url({% static 'images/it.jpeg'%});"></div>
+
+                            <div class="entry__content">
+                                <span class="entry__category"><a href="#0">LifeStyle</a></span>
+
+                                <h1><a href="#0" title="">The difference between Classics, Vintage & Antique Cars.</a></h1>
+
+                                <div class="entry__info">
+                                    <a href="#0" class="entry__profile-pic">
+                                        <img class="avatar" src="images/avatars/user-03.jpg" alt="">
+                                    </a>
+
+                                    <ul class="entry__meta">
+                                        <li><a href="#0">John Doe</a></li>
+                                        <li>June 12, 2018</li>
+                                    </ul>
+                                </div>
+                            </div> <!-- end entry__content -->
+
+                        </div> <!-- end entry -->
+
+                    </div> <!-- end featured__slide -->
+
+                </div> <!-- end featured -->
+
+            </div> <!-- end col-full -->
+        </div>
+    </section> <!-- end s-featured -->
+
+
+    <!-- s-content
+    ================================================== -->
+    <section class="s-content">
+
+        <div class="row entries-wrap wide">
+            <div class="entries">
+                <article class="col-block" style="padding-right: 0 !important;">
+                    {% for post in page_obj%}
+                    <div class="item-entry" data-aos="zoom-in" style="width: 500px !important; height: 500px !important; margin-right: 40% !important;">
+                        <div class="item-entry__thumb" style="width: 300px !important; height: 300px !important;">
+                            <a href="single-standard.html" class="item-entry__thumb-link">
+                                <img src="{{ post.get_image }}"
+                                     srcset="{{ post.get_image }}" alt="">
+                            </a>
+                        </div>
+
+                        <div class="item-entry__text">
+                            <div class="item-entry__cat">
+                                <a href="{% url 'detail' post.id %}">{{ post }}</a>
+                            </div>
+
+<!--                            <h1 class="item-entry__title"><a href="single-standard.html"></a></h1>-->
+
+                            <div class="item-entry__date">
+                                <a href="single-standard.html">{{ post.created }}</a>
+                            </div>
+                        </div>
+                    </div> <!-- item-entry -->
+                    {% endfor %}
+                </article> <!-- end article -->
+
+            </div> <!-- end entries -->
+        </div> <!-- end entries-wrap -->
+
+        <div class="row pagination-wrap">
+            <div class="col-full">
+                <nav class="pgn" data-aos="fade-up">
+                    <ul>
+                        {% if page_obj.has_previous %}
+                        <li><a class="pgn__prev" href="{% url 'home'%}?page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a></li>
+                        {% endif %}
+                        <li><span class="pgn__num current">{{ page_obj.number}}</span></li>
+                        {% if page_obj.has_next %}
+                        <li><a class="pgn__num" href="{% url 'home'%}?page={{page_obj.next_page_number}}">{{page_obj.next_page_number}}</a></li>
+                        {% endif %}
+                    </ul>
+                </nav>
+            </div>
+        </div>
+
+    </section> <!-- end s-content -->
+
+{% endblock%}

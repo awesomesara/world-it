@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<section class="s-content s-content--top-padding">
+
+        <div class="row narrow">
+            <div class="col-full s-content__header" data-aos="fade-up">
+                <h1 class="display-1 display-1--with-line-sep">Category {{category.name}}</h1>
+                <p class="lead">Welcome</p>
+            </div>
+        </div>
+<article class="blog_item">
+                            {% if category.get_children %}
+                            <ul>
+                                {% for child in category.get_children %}
+                            <li style="font-size: 20px; margin-bottom: 20px;"><a href="{% url 'category' child.slug %}">{{ child.name }}</a> </li>
+                            {%endfor%}
+                                </ul>
+                            {%endif%}
+
+                            {% if not category.get_children %}
+                            <div class="entries">
+
+                    {% for post in posts%}
+                    <div class="item-entry" data-aos="zoom-in" style="width: 500px !important; height: 500px !important; margin-right: 40% !important;">
+                        <div class="item-entry__thumb" style="width: 300px !important; height: 300px !important;">
+                            <a href="{% url 'detail' post.id%}" class="item-entry__thumb-link">
+                                <img src="{{ post.get_image }}"
+                                     srcset="{{ post.get_image }}" alt="">
+                            </a>
+                        </div>
+
+                        <div class="item-entry__text">
+                            <div class="item-entry__cat">
+                                <a href="{% url 'detail' post.id %}">{{ post }}</a>
+                            </div>
+
+<!--                            <h1 class="item-entry__title"><a href="single-standard.html"></a></h1>-->
+
+                            <div class="item-entry__date">
+                                <a href="{% url 'detail' post.id%}">{{ post.created }}</a>
+                            </div>
+                        </div>
+                    </div> <!-- item-entry -->
+                    {% endfor %}
+                </article> <!-- end article -->
+
+                            {% endif %}
+
+
+
+{% endblock%}
