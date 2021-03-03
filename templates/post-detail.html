@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load crispy_forms_tags %}
 {% load static %}
 
 {% block content %}
@@ -17,35 +18,23 @@
                 </div>
             </div>
 
-<!-- <div class="block">-->
-<!--        &lt;!&ndash; podklychaem carusel' &ndash;&gt;-->
-<!--        <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">-->
-<!--            <ol class="carousel-indicators">-->
-<!--                <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>-->
-<!--                <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>-->
-<!--                <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>-->
-<!--                <li data-target="#carouselExampleIndicators" data-slide-to="3"></li>-->
-<!--                <li data-target="#carouselExampleIndicators" data-slide-to="4"></li>-->
-<!--                <li data-target="#carouselExampleIndicators" data-slide-to="5"></li>-->
 
-<!--            </ol>-->
-<!--            <div class="carousel-inner">-->
-<!--                <div class="carousel-item">-->
-<!--                    {% for image in post.get_image_all %}-->
-<!--                    <img src="{{ image }}" class="d-block w-100" alt="...">-->
-<!--                    {% endfor %}-->
-<!--                </div>-->
-<!--            </div>-->
-<!--            <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">-->
-<!--                <span class="carousel-control-prev-icon" aria-hidden="true"></span>-->
-<!--                <span class="sr-only">Previous</span>-->
-<!--            </a>-->
-<!--            <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">-->
-<!--                <span class="carousel-control-next-icon" aria-hidden="true"></span>-->
-<!--                <span class="sr-only">Next</span>-->
-<!--            </a>-->
-<!--        </div>-->
-<!--    </div>-->
+            </div> <!-- s-entry__main -->
+            {% if request.user.is_authenticated %}
+
+                {% if is_favourite %}
+                <a href="{% url 'favourite_post' pk=post.id %}"><i class="fas fa-bookmark"></i></a>
+                 {% else %}
+                <a href="{% url 'favourite_post' pk=post.id %}"><i class="far fa-bookmark"></i></a>
+                {% endif %}
+
+            {%endif%}
+
+
+            {% if request.user == post.user %}
+            <a href="{% url 'delete-post' post.id %}"><i class="fas fa-trash-alt fa-lg"></i></a>
+            <a href="{% url 'update-post' post.id %}"><i class="fas fa-edit"></i></a>
+            {% endif%}
 
             <div class="entry__header col-full">
                 <h1 class="entry__header-title display-1">
@@ -70,205 +59,50 @@
         </article> <!-- end entry/article -->
 
 
-        <div class="s-content__entry-nav">
-            <div class="row s-content__nav">
-                <div class="col-six s-content__prev">
-                    <a href="#0" rel="prev">
-                        <span>Previous Post</span>
-                        The Pomodoro Technique Really Works.
-                    </a>
-                </div>
-                <div class="col-six s-content__next">
-                    <a href="#0" rel="next">
-                        <span>Next Post</span>
-                        3 Benefits of Minimalism In Interior Design.
-                    </a>
-                </div>
-            </div>
-        </div> <!-- end s-content__pagenav -->
-
-        <div class="comments-wrap">
-
-            <div id="comments" class="row">
-                <div class="col-full">
-
-                    <h3 class="h2">5 Comments</h3>
 
                     <!-- START commentlist -->
                     <ol class="commentlist">
-
+{% for i in comment %}
                         <li class="depth-1 comment">
 
-                            <div class="comment__avatar">
-                                <img class="avatar" src="images/avatars/user-01.jpg" alt="" width="50" height="50">
-                            </div>
+<!--                            <div class="comment__avatar">-->
+<!--                                <img class="avatar" src="images/avatars/user-01.jpg" alt="" width="50" height="50">-->
+<!--                            </div>-->
 
                             <div class="comment__content">
 
                                 <div class="comment__info">
-                                    <div class="comment__author">Itachi Uchiha</div>
+                                    <div class="comment__author">{{ i.user }}</div>
 
                                     <div class="comment__meta">
-                                        <div class="comment__time">Jun 15, 2018</div>
+                                        <div class="comment__time">{{ i.created }}</div>
                                         <div class="comment__reply">
                                             <a class="comment-reply-link" href="#0">Reply</a>
                                         </div>
+                                        {% if request.user == i.user %}
+                                        <div class="comment__reply">
+                                            <a class="comment-reply-link" href="{% url 'delete-comment' i.id%}">Delete</i></a>
+                                        </div>
+                                        {% endif %}
                                     </div>
                                 </div>
 
                                 <div class="comment__text">
-                                <p>Adhuc quaerendum est ne, vis ut harum tantas noluisse, id suas iisque mei. Nec te inani ponderum vulputate,
-                                facilisi expetenda has et. Iudico dictas scriptorem an vim, ei alia mentitum est, ne has voluptua praesent.</p>
+                                <p>{{ i.body}}</p>
                                 </div>
 
                             </div>
 
                         </li> <!-- end comment level 1 -->
-
-                        <li class="thread-alt depth-1 comment">
-
-                            <div class="comment__avatar">
-                                <img class="avatar" src="images/avatars/user-04.jpg" alt="" width="50" height="50">
-                            </div>
-
-                            <div class="comment__content">
-
-                                <div class="comment__info">
-                                    <div class="comment__author">John Doe</div>
-
-                                    <div class="comment__meta">
-                                        <div class="comment__time">Jun 15, 2018</div>
-                                        <div class="comment__reply">
-                                            <a class="comment-reply-link" href="#0">Reply</a>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="comment__text">
-                                <p>Sumo euismod dissentiunt ne sit, ad eos iudico qualisque adversarium, tota falli et mei. Esse euismod
-                                urbanitas ut sed, et duo scaevola pericula splendide. Primis veritus contentiones nec ad, nec et
-                                tantas semper delicatissimi.</p>
-                                </div>
-
-                            </div>
-
-                            <ul class="children">
-
-                                <li class="depth-2 comment">
-
-                                    <div class="comment__avatar">
-                                        <img class="avatar" src="images/avatars/user-03.jpg" alt="" width="50" height="50">
-                                    </div>
-
-                                    <div class="comment__content">
-
-                                        <div class="comment__info">
-                                            <div class="comment__author">Kakashi Hatake</div>
-
-                                            <div class="comment__meta">
-                                                <div class="comment__time">Jun 15, 2018</div>
-                                                <div class="comment__reply">
-                                                    <a class="comment-reply-link" href="#0">Reply</a>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="comment__text">
-                                            <p>Duis sed odio sit amet nibh vulputate
-                                            cursus a sit amet mauris. Morbi accumsan ipsum velit. Duis sed odio sit amet nibh vulputate
-                                            cursus a sit amet mauris</p>
-                                        </div>
-
-                                    </div>
-
-                                    <ul class="children">
-
-                                        <li class="depth-3 comment">
-
-                                            <div class="comment__avatar">
-                                                <img class="avatar" src="images/avatars/user-04.jpg" alt="" width="50" height="50">
-                                            </div>
-
-                                            <div class="comment__content">
-
-                                                <div class="comment__info">
-                                                    <div class="comment__author">John Doe</div>
-
-                                                    <div class="comment__meta">
-                                                        <div class="comment__time">Jun 15, 2018</div>
-                                                        <div class="comment__reply">
-                                                            <a class="comment-reply-link" href="#0">Reply</a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="comment__text">
-                                                <p>Investigationes demonstraverunt lectores legere me lius quod ii legunt saepius. Claritas est
-                                                etiam processus dynamicus, qui sequitur mutationem consuetudium lectorum.</p>
-                                                </div>
-
-                                            </div>
-
-                                        </li>
-
-                                    </ul>
-
-                                </li>
-
-                            </ul>
-
-                        </li> <!-- end comment level 1 -->
-
-                        <li class="depth-1 comment">
-
-                            <div class="comment__avatar">
-                                <img class="avatar" src="images/avatars/user-02.jpg" alt="" width="50" height="50">
-                            </div>
-
-                            <div class="comment__content">
-
-                                <div class="comment__info">
-                                    <div class="comment__author">Shikamaru Nara</div>
-
-                                    <div class="comment__meta">
-                                        <div class="comment__time">Jun 15, 2018</div>
-                                        <div class="comment__reply">
-                                            <a class="comment-reply-link" href="#0">Reply</a>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="comment__text">
-                                <p>Typi non habent claritatem insitam; est usus legentis in iis qui facit eorum claritatem.</p>
-                                </div>
-
-                            </div>
-
-                        </li>  <!-- end comment level 1 -->
-
+                        {% endfor %}
                     </ol>
                     <!-- END commentlist -->
 
                 </div> <!-- end col-full -->
             </div> <!-- end comments -->
 
-<!--            <div class="row comment-respond">-->
 
-<!--                &lt;!&ndash; START respond &ndash;&gt;-->
-<!--                <div id="respond" class="col-full">-->
-
-<!--                    <h3 class="h2">Add Comment <span>Your email address will not be published</span></h3>-->
-
-<!--                    <form name="cForm" id="cForm" class="contact-form" method="post" action="" style="margin-bottom: 5%;">-->
-<!--                    <fieldset>-->
-
-<!--                    {% csrf_token %}-->
-<!--                    {{ comment_form.as_p }}-->
-<!--                    -->
-<!--                    <button type="submit">Зарегистрироваться</button>-->
-<!--                                </fieldset>-->
-<!--                    </form>-->
-            <section class="s-content s-content--top-padding s-content--narrow">
+ <section class="s-content s-content--top-padding s-content--narrow">
 
         <div class="row narrow">
             <div class="col-full s-content__header">
@@ -282,7 +116,7 @@
     <form name="cForm" id="cForm" class="contact-form" method="post" action="">
                     <fieldset>
     {% csrf_token %}
-    {{ form.as_p }}
+    {{ form|crispy }}
     <button type="submit">добавить коментарий</button>
                 </fieldset>
     </form>
@@ -296,40 +130,7 @@
             </div>
         </div>
     {% endif %}
-            </section>
-
-
-
-
-
-
-
-
-<!--                            <div class="form-field">-->
-<!--                                <input name="name" id="name" class="full-width" placeholder="Your Name*" value="" type="text">-->
-<!--                            </div>-->
-
-<!--                            <div class="form-field">-->
-<!--                                <input name="email" id="email" class="full-width" placeholder="Your Email*" value="" type="text">-->
-<!--                            </div>-->
-
-<!--                            <div class="message form-field">-->
-<!--                                <textarea name="body" id="body" class="full-width" placeholder="Your Message*"></textarea>-->
-<!--                            </div>-->
-
-<!--                            <input name="submit" id="submit" class="btn btn&#45;&#45;primary btn-wide btn&#45;&#45;large full-width" value="Add Comment" type="submit">-->
-
-<!--                        </fieldset>-->
-<!--                    </form> &lt;!&ndash; end form &ndash;&gt;-->
-
-<!--                </div>-->
-<!--                &lt;!&ndash; END respond&ndash;&gt;-->
-
-<!--            </div> &lt;!&ndash; end comment-respond &ndash;&gt;-->
-
-<!--        </div> &lt;!&ndash; end comments-wrap &ndash;&gt;-->
-
-<!--    </section> &lt;!&ndash; end s-content &ndash;&gt;-->
+ </section>
 
 
 

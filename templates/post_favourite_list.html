@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<!--<section class="s-content s-content&#45;&#45;top-padding">-->
+
+<!--        <div style="display: flex !important; justify-content: center ;"  class="row narrow">-->
+<!--            <div class="col-full s-content__header" data-aos="fade-up">-->
+<!--                <h1 class="display-1 display-1&#45;&#45;with-line-sep">Favourites:</h1>-->
+<!--                <p class="lead"></p>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--<article class="blog_item" style="">-->
+<!--     {% for post in favourite_post %}-->
+<!--                    <div class="item-entry" data-aos="zoom-in" style="margin-right:80px !important; margin-top: 80px">-->
+<!--                        <div class="item-entry__thumb" style="width: 300px !important; height: 300px !important;">-->
+<!--                            <a href="{% url 'detail' post.id%}" class="item-entry__thumb-link">-->
+<!--                                <img src="{{ post.get_image }}"-->
+<!--                                     srcset="{{ post.get_image }}" alt="">-->
+<!--                            </a>-->
+<!--                        </div>-->
+
+<!--                        <div class="item-entry__text">-->
+<!--                            <div class="item-entry__cat">-->
+<!--                                <a href="{% url 'detail' post.id %}">{{ post }}</a>-->
+<!--                            </div>-->
+
+<!--&lt;!&ndash;                            <h1 class="item-entry__title"><a href="single-standard.html"></a></h1>&ndash;&gt;-->
+
+<!--                            <div class="item-entry__date">-->
+<!--                                <a href="{% url 'detail' post.id%}">{{ post.created }}</a>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div> &lt;!&ndash; item-entry &ndash;&gt;-->
+<!--                        {% endfor %}-->
+
+<!--</article>-->
+<!--</section>-->
+
+<section class="s-content">
+    <h1 style="text-align: center">Favourite</h1>
+
+        <div style="display: flex !important; justify-content: center" class="row entries-wrap wide">
+            <div class="entries" style="display: flex !important;">
+                <article class="col-block" style="padding-right: 0 !important;">
+                {% for post in favourite_post %}
+                    <div class="item-entry" data-aos="zoom-in" style="width: 600px !important; height: 650px !important; margin-top: 30px; display: flex; align-items: center; flex-direction: column ">
+                        <div class="item-entry__thumb" style="width: 300px !important; height: 300px !important;">
+                            <a href="{% url 'detail' post.id %}" class="item-entry__thumb-link">
+                                <img style="margin-top: 70px" src="{{ post.get_image }}"
+                                     srcset="{{ post.get_image }}" alt="">
+                            </a>
+                        </div>
+
+                        <div class="item-entry__text">
+                            <div class="item-entry__cat">
+                                <a href="{% url 'detail' post.id %}"><h2>{{ post }}</h2></a>
+                            </div>
+
+                            <p class="item-entry__title">{{ post.description|truncatewords:10}}</p>
+
+                            <div class="item-entry__date">
+                                <a href="single-standard.html">{{ post.created }}</a>
+                            </div>
+                        </div>
+                    </div> <!-- item-entry -->
+                    {% endfor %}
+                </article> <!-- end article -->
+
+            </div> <!-- end entries -->
+        </div> <!-- end entries-wrap -->
+
+        <div class="row pagination-wrap">
+
+
+    </section> <!-- end s-content -->
+
+
+
+
+
+{% endblock content %}

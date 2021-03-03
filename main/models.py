@@ -20,6 +20,10 @@ class Category(models.Model):
             return self.children.all()
         return False
 
+    @property
+    def get_image_all(self):
+        return self.images.all()
+
 
 class Post(models.Model):
     title = models.CharField(max_length=300)
@@ -27,6 +31,12 @@ class Post(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='post')
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='posts')
     created = models.DateTimeField()
+
+    likes = models.ManyToManyField(User, related_name='likes', blank=True)
+    favourite = models.ManyToManyField(User, related_name='favourite', blank=True)
+
+    # class Meta:
+    #     ordering = ['-pub_date', ]
 
     def __str__(self):
         return self.title
@@ -38,6 +48,10 @@ class Post(models.Model):
     @property
     def get_image_all(self):
         return self.images.all()
+
+
+    def get_all(self):
+        return Post.objects.all()
 
     def get_absolute_url(self):
         from django.shortcuts import reverse
@@ -64,8 +78,15 @@ class Comment(models.Model):
     class Meta:
         ordering = ('created',)
 
-    # def __str__(self):
-    #     return 'Comment by {} on {}'.format(self.post)
-    #
+    def __str__(self):
+        return f'Comment {self.body} by {self.user}'
+
     def get_absolute_url(self):
         return reverse_lazy("blog_detail", args=[str(self.pk)])
+
+    def get_absolute_url2(self):
+        from django.shortcuts import reverse
+        return reverse('detail', kwargs={'pk': self.pk})
+
+
+

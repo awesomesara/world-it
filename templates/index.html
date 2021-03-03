@@ -99,24 +99,24 @@
     ================================================== -->
     <section class="s-content">
 
-        <div class="row entries-wrap wide">
-            <div class="entries">
+        <div style="display: flex !important; justify-content: center" class="row entries-wrap wide">
+            <div class="entries" style="display: flex !important;">
                 <article class="col-block" style="padding-right: 0 !important;">
                     {% for post in page_obj%}
-                    <div class="item-entry" data-aos="zoom-in" style="width: 500px !important; height: 500px !important; margin-right: 40% !important;">
+                    <div class="item-entry" data-aos="zoom-in" style="width: 600px !important; height: 650px !important; margin-top: 30px; display: flex; align-items: center; flex-direction: column ">
                         <div class="item-entry__thumb" style="width: 300px !important; height: 300px !important;">
-                            <a href="single-standard.html" class="item-entry__thumb-link">
-                                <img src="{{ post.get_image }}"
+                            <a href="{% url 'detail' post.id %}" class="item-entry__thumb-link">
+                                <img style="margin-top: 70px" src="{{ post.get_image }}"
                                      srcset="{{ post.get_image }}" alt="">
                             </a>
                         </div>
 
                         <div class="item-entry__text">
                             <div class="item-entry__cat">
-                                <a href="{% url 'detail' post.id %}">{{ post }}</a>
+                                <a href="{% url 'detail' post.id %}"><h2>{{ post }}</h2></a>
                             </div>
 
-<!--                            <h1 class="item-entry__title"><a href="single-standard.html"></a></h1>-->
+                            <p class="item-entry__title">{{ post.description|truncatewords:10}}</p>
 
                             <div class="item-entry__date">
                                 <a href="single-standard.html">{{ post.created }}</a>

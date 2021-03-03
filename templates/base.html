@@ -16,7 +16,7 @@
 
     <!-- CSS
     ================================================== -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="{% static 'css/base.css'%}">
     <link rel="stylesheet" href="{% static 'css/vendor.css'%}">
     <link rel="stylesheet" href="{% static 'css/main.css'%}">
@@ -40,8 +40,8 @@
     <header class="s-header header">
 
         <div class="header__logo">
-            <a class="logo" href="index.html">
-                <img src="" alt="IT-WORLD">
+            <a class="logo" href="{% url 'home' %}">
+                <img style="width: 55px; height: 50px" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_-a_pwHlzgqcdHRgHgpOz0BsS3fWd67e8yw&usqp=CAU" style="height: 6.9rem; width: 6.9rem;" alt="IT-WORLD">
             </a>
         </div> <!-- end header__logo -->
 
@@ -76,31 +76,28 @@
                         {% endfor %}
                     </ul>
                 </li>
-                <li class="has-children">
-                    <a href="#0" title="">People</a>
-                    <ul class="sub-menu">
-                        <li><a href="single-video.html">History</a></li>
-                        <li><a href="single-audio.html">Cases</a></li>
-                    </ul>
-                </li>
-                <li><a href="style-guide.html" title="">News</a></li>
+
+                <li><a href="{% url 'favourite_post_list'%}" title="">favourites</a></li>
                 <li><a href="{% url 'add-post'%}" title="">Add post</a></li>
-                <li><a href="page-contact.html" title="">Contact</a></li>
+                {% if not request.user.is_authenticated %}
+                <li><a href="{% url 'registration' %}"><i class="fa fa-registered fa-lg" aria-hidden="true"></i></a></li>
+                <li><a href="{% url 'login' %}"><i class="far fa-user-circle fa-lg"></i></a></li>
+                {% else %}
+                <li><a href="{% url 'profile' %}"><i class="fas fa-user-circle fa-lg"></i></a></li>
+                <li><a href="{% url 'logout' %}"><i class="fas fa-sign-out-alt fa-lg"></i></a></li>
+                {% endif %}
             </ul> <!-- end header__nav -->
 
             <a href="#0" title="Close Menu" class="header__overlay-close close-mobile-menu">Close</a>
 
         </nav> <!-- end header__nav-wrap -->
-
-        <ul class="icons">
-										{% if not request.user.is_authenticated %}
-										<a href="{% url 'registration' %}"><i class="fa fa-registered" aria-hidden="true"></i></a>
-										<a href="{% url 'login' %}"><i class="far fa-user-circle"></i></a>
-										{% else %}
-										<a href="{% url 'profile' %}"><i class="fas fa-user-circle"></i></a>
-                                        <a href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i></a>
-										{% endif %}
-									</ul>
+{% if messages %}
+                               <ul class="messages">
+                               {% for message in messages %}
+                                <div class="alert alert-success" role="alert">{{ message }}</div>
+                             {% endfor %}
+                               </ul>
+                                 {% endif %}
 
     </header> <!-- s-header -->
 
@@ -108,114 +105,10 @@
 
 {% block content %} {% endblock %}
 
-   <section class="s-extra">
-
-        <div class="row">
-
-            <div class="col-seven md-six tab-full popular">
-                <h3>Popular Posts</h3>
-
-                <div class="block-1-2 block-m-full popular__posts">
-                    <article class="col-block popular__post">
-                        <a href="#0" class="popular__thumb">
-                            <img src="{% static 'images/thumbs/small/tulips-150.jpg'%}" alt="">
-                        </a>
-                        <h5>10 Interesting Facts About Caffeine.</h5>
-                        <section class="popular__meta">
-                            <span class="popular__author"><span>By</span> <a href="#0">John Doe</a></span>
-                            <span class="popular__date"><span>on</span> <time datetime="2018-06-14">Jun 14, 2018</time></span>
-                        </section>
-                    </article>
-                    <article class="col-block popular__post">
-                        <a href="#0" class="popular__thumb">
-                            <img src="{% static 'images/thumbs/small/wheel-150.jpg'%}" alt="">
-                        </a>
-                        <h5><a href="#0">Visiting Theme Parks Improves Your Health.</a></h5>
-                        <section class="popular__meta">
-                            <span class="popular__author"><span>By</span> <a href="#0">John Doe</a></span>
-                            <span class="popular__date"><span>on</span> <time datetime="2018-06-12">Jun 12, 2018</time></span>
-                        </section>
-                    </article>
-                    <article class="col-block popular__post">
-                        <a href="#0" class="popular__thumb">
-                            <img src="{% static 'images/thumbs/small/shutterbug-150.jpg'%}" alt="">
-                        </a>
-                        <h5><a href="#0">Key Benefits Of Family Photography.</a></h5>
-                        <section class="popular__meta">
-                            <span class="popular__author"><span>By</span> <a href="#0">John Doe</a></span>
-                            <span class="popular__date"><span>on</span> <time datetime="2018-06-12">Jun 12, 2018</time></span>
-                        </section>
-                    </article>
-                    <article class="col-block popular__post">
-                        <a href="#0" class="popular__thumb">
-                            <img src="images/thumbs/small/cookies-150.jpg" alt="">
-                        </a>
-                        <h5><a href="#0">Absolutely No Sugar Oatmeal Cookies.</a></h5>
-                        <section class="popular__meta">
-                            <span class="popular__author"><span>By</span> <a href="#0"> John Doe</a></span>
-                            <span class="popular__date"><span>on</span> <time datetime="2018-06-12">Jun 12, 2018</time></span>
-                        </section>
-                    </article>
-                    <article class="col-block popular__post">
-                        <a href="#0" class="popular__thumb">
-                            <img src="images/thumbs/small/beetle-150.jpg" alt="">
-                        </a>
-                        <h5><a href="#0">Throwback To The Good Old Days.</a></h5>
-                        <section class="popular__meta">
-                            <span class="popular__author"><span>By</span> <a href="#0">John Doe</a></span>
-                            <span class="popular__date"><span>on</span> <time datetime="2018-06-12">Jun 12, 2018</time></span>
-                        </section>
-                    </article>
-                    <article class="col-block popular__post">
-                        <a href="#0" class="popular__thumb">
-                            <img src="images/thumbs/small/salad-150.jpg" alt="">
-                        </a>
-                        <h5>Healthy Mediterranean Salad Recipes</h5>
-                        <section class="popular__meta">
-                            <span class="popular__author"><span>By</span> <a href="#0"> John Doe</a></span>
-                            <span class="popular__date"><span>on</span> <time datetime="2018-06-12">Jun 12, 2018</time></span>
-                        </section>
-                    </article>
-                </div> <!-- end popular_posts -->
-            </div> <!-- end popular -->
-
-            <div class="col-four md-six tab-full end">
-                <div class="row">
-                    <div class="col-six md-six mob-full categories">
-                        <h3>Categories</h3>
-
-                        <ul class="linklist">
-                            <li><a href="#0">Lifestyle</a></li>
-                            <li><a href="#0">Travel</a></li>
-                            <li><a href="#0">Recipes</a></li>
-                            <li><a href="#0">Management</a></li>
-                            <li><a href="#0">Health</a></li>
-                            <li><a href="#0">Creativity</a></li>
-                        </ul>
-                    </div> <!-- end categories -->
-
-                    <div class="col-six md-six mob-full sitelinks">
-                        <h3>Site Links</h3>
-
-                        <ul class="linklist">
-                            <li><a href="#0">Home</a></li>
-                            <li><a href="#0">Blog</a></li>
-                            <li><a href="#0">Styles</a></li>
-                            <li><a href="#0">About</a></li>
-                            <li><a href="#0">Contact</a></li>
-                            <li><a href="#0">Privacy Policy</a></li>
-                        </ul>
-                    </div> <!-- end sitelinks -->
-                </div>
-            </div>
-        </div> <!-- end row -->
-
-    </section> <!-- end s-extra -->
-
 
     <!-- s-footer
     ================================================== -->
-    <footer class="s-footer">
+    <footer style="background-color: rgb(255, 255, 128)" class="s-footer">
 
         <div class="s-footer__main">
             <div class="row">
@@ -237,16 +130,16 @@
 
                     <p>Sit vel delectus amet officiis repudiandae est voluptatem. Tempora maxime provident nisi et fuga et enim exercitationem ipsam. Culpa consequatur occaecati.</p>
 
-                    <div class="subscribe-form">
-                        <form id="mc-form" class="group" novalidate="true">
+<!--                    <div class="subscribe-form">-->
+<!--                        <form id="mc-form" class="group" novalidate="true">-->
 
-                            <input type="email" value="" name="EMAIL" class="email" id="mc-email" placeholder="Email Address" required="">
+<!--                            <input type="email" value="" name="EMAIL" class="email" id="mc-email" placeholder="Email Address" required="">-->
 
-                            <input type="submit" name="subscribe" value="Send">
+<!--                            <input type="submit" name="subscribe" value="Send">-->
 
-                            <label for="mc-email" class="subscribe-message"></label>
+<!--                            <label for="mc-email" class="subscribe-message"></label>-->
 
-                        </form>
+<!--                        </form>-->
                     </div>
 
                 </div> <!-- end s-footer__subscribe -->
@@ -257,25 +150,6 @@
         <div class="s-footer__bottom">
             <div class="row">
 
-                <div class="col-six">
-                    <ul class="footer-social">
-                        <li>
-                            <a href="#0"><i class="fab fa-facebook"></i></a>
-                        </li>
-                        <li>
-                            <a href="#0"><i class="fab fa-twitter"></i></a>
-                        </li>
-                        <li>
-                            <a href="#0"><i class="fab fa-instagram"></i></a>
-                        </li>
-                        <li>
-                            <a href="#0"><i class="fab fa-youtube"></i></a>
-                        </li>
-                        <li>
-                            <a href="#0"><i class="fab fa-pinterest"></i></a>
-                        </li>
-                    </ul>
-                </div>
 
                 <div class="col-six">
                     <div class="s-footer__copyright">
@@ -299,8 +173,9 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
     <!-- Java Script
     ================================================== -->
     <!-- podklychaem jquery do js dlya vzaimodeistviya js i html -->
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
-    <script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>    <script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
     <script src="{% static 'js/plugins.js' %}"></script>
     <script src="{% static 'js/main.js'%}"></script>
 

@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load crispy_forms_tags %}
 {% block content %}
   {% block title %}Зарегистрируйте свой аккаунт{% endblock title %}
 <section class="s-content s-content--top-padding s-content--narrow">
@@ -14,9 +15,10 @@
     <form name="cForm" id="cForm" class="contact-form" method="post" action="">
                     <fieldset>
     {% csrf_token %}
-    {{ form.as_p }}
+    {{ form|crispy }}
     <button type="submit">Зарегистрироваться</button>
                 </fieldset>
     </form>
+</section>
 
 {% endblock content %}

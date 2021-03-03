@@ -39,6 +39,10 @@ class User(AbstractBaseUser):
 
     objects = UserManager()
 
+    @property
+    def get_all(self):
+        return self.objects.all()
+
     def has_perm(self, perm, obj=None):
         return self.is_superuser
 

@@ -1,5 +1,4 @@
 from datetime import timedelta
-
 from django.db.models import Q
 from django.forms import modelformset_factory
 from django.http import HttpResponse, HttpResponseRedirect
@@ -55,11 +54,6 @@ class CategoryDetailView(DetailView):
         context['posts'] = Post.objects.filter(category_id=self.slug)
         return context
 
-# def category_detail(request, slug):
-#     category = Category.objects.get(slug=slug)
-#     post = Post.objects.filter(category_id=slug)
-#     return render(request, 'category-detail.html', local())
-
 
 class PostDetailView(View):
     model = Post
@@ -82,11 +76,6 @@ class PostDetailView(View):
         if form.is_valid():
             comment = form.save()
         return redirect(reverse_lazy('detail', kwargs={'pk': pk}), Comment.get_absolute_url)
-    # def get_context_data(self, **kwargs):
-    #     context = super().get_context_data(**kwargs)
-    #     image = self.get_object().get_image
-    #     context['images'] = self.get_object().images.exclude(id=image.id)
-    #     return context
 
 
 def add_post(request):
@@ -122,7 +111,7 @@ def update_post(request, pk):
             return redirect(post.get_absolute_url())
         return render(request, 'update-post.html', locals())
     else:
-        return HttpResponse('<h1>Forbidden</h1>')
+        return HttpResponse('<h1>этот файл может редактировать только создатель этого поста</h1>')
 
 
 class DeletePostView(DeleteView):
@@ -138,34 +127,59 @@ class DeletePostView(DeleteView):
         return HttpResponseRedirect(success_url)
 
 
+class DeleteCommentView(DeleteView):
+    model = Comment
+    template_name = 'delete-comment.html'
+    success_url = reverse_lazy('home')
+
+    def delete(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        success_url = self.get_success_url()
+        # pk = self.kwargs['pk']
+        self.object.delete()
+        messages.add_message(request, messages.SUCCESS, 'Comment successfully deleted!')
+        return HttpResponseRedirect(success_url)
+
 def post_detail(request, year, month, day, post):
     post = get_object_or_404(Post, slug=post,
                                    status='published',
                                    publish__year=year,
                                    publish__month=month,
                                    publish__day=day)
-    # List of active comments for this post
     comments = post.comments.filter(active=True)
+    is_favourite = False
+    if post.favourite.filter(pk=request.user.id).exists():
+        is_favourite = True
+
 
     if request.method == 'POST':
-        # A comment was posted
         comment_form = CommentForm(data=request.POST)
         if comment_form.is_valid():
-            # Create Comment object but don't save to database yet
             new_comment = comment_form.save(commit=False)
-            # Assign the current post to the comment
             new_comment.post = post
-            # Save the comment to the database
             new_comment.save()
     else:
         comment_form = CommentForm()
     return render(request,
                   'post-detail.html',
                  {'post': post,
+                  'is_favourite': is_favourite,
                   'comments': comments,
                   'comment_form': comment_form})
 
+def favourite_post_list(request):
+    user = request.user
+    favourite_post = user.favourite.all()
+    context = {
+        'favourite_post': favourite_post
+    }
+    return render(request, 'post_favourite_list.html', context)
 
-class CategoryListView(ListView):
-    pass
+def favourite_post(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    if post.favourite.filter(pk=request.user).exists():
+        post.favourite.remove(request.user)
+    else:
+        post.favourite.add(request.user)
+    return HttpResponseRedirect(post.get_absolute_url())
 

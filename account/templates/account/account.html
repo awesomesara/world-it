@@ -1,10 +1,23 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-<h1>hello</h1>
-</body>
-</html>
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<section class="s-content s-content--top-padding s-content--narrow">
+
+        <div class="row narrow">
+            <div class="col-full s-content__header">
+                <h1 class="display-1 display-1--with-line-sep">Account</h1>
+                <p class="lead"> Ваша страничка
+                </p>
+            </div>
+        </div>
+
+<h1>Имя - {{request.user.name}}</h1>
+<h1>Фамилия - {{request.user.last_name}}</h1>
+
+
+
+
+</section> <!-- end s-content -->
+
+
+{% endblock %}

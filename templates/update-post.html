@@ -1,13 +1,28 @@
 {% extends 'base.html' %}
 {% block content %}
-<form method="post" enctype="multipart/form-data">
+
+<section class="s-content s-content--top-padding s-content--narrow">
+
+        <div class="row narrow">
+            <div class="col-full s-content__header">
+                <h1 class="display-1 display-1--with-line-sep">Registration</h1>
+                <p class="lead">
+                    If you want, you can register in our blog!
+                </p>
+            </div>
+        </div>
+    <form name="cForm" id="cForm" class="contact-form" method="post" action="">
+                    <fieldset>
     {% csrf_token %}
     {{ post_form.as_p }}
     {{ formset.management_form }}
     {% for form in formset %}
     {{ form }}
     {% endfor %}
-     <input class="btn btn-primary" type="submit" value="Submit">
-</form>
+    <button type="submit">Редактировать</button>
+                </fieldset>
+    </form>
+</section>
+
 
 {% endblock %}

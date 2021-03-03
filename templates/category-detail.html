@@ -4,26 +4,26 @@
 
 <section class="s-content s-content--top-padding">
 
-        <div class="row narrow">
+        <div style="display: flex !important; justify-content: center ;"  class="row narrow">
             <div class="col-full s-content__header" data-aos="fade-up">
-                <h1 class="display-1 display-1--with-line-sep">Category {{category.name}}</h1>
+                <h1 class="display-1 display-1--with-line-sep">Category: {{category.name}}</h1>
                 <p class="lead">Welcome</p>
             </div>
         </div>
-<article class="blog_item">
+<article class="blog_item" >
                             {% if category.get_children %}
                             <ul>
                                 {% for child in category.get_children %}
-                            <li style="font-size: 20px; margin-bottom: 20px;"><a href="{% url 'category' child.slug %}">{{ child.name }}</a> </li>
+                            <li style="font-size: 20px; margin-bottom: 20px;display: flex !important; justify-content: center"><a style="text-decoration: none " href="{% url 'category' child.slug %}"><h1>{{ child.name }}</h1></a> </li>
                             {%endfor%}
                                 </ul>
                             {%endif%}
 
-                            {% if not category.get_children %}
-                            <div class="entries">
+             {% if not category.get_children %}
+              <div class="entries">
 
                     {% for post in posts%}
-                    <div class="item-entry" data-aos="zoom-in" style="width: 500px !important; height: 500px !important; margin-right: 40% !important;">
+                    <div class="item-entry" data-aos="zoom-in" style="margin-right:80px !important; margin-top: 80px">
                         <div class="item-entry__thumb" style="width: 300px !important; height: 300px !important;">
                             <a href="{% url 'detail' post.id%}" class="item-entry__thumb-link">
                                 <img src="{{ post.get_image }}"
@@ -33,13 +33,13 @@
 
                         <div class="item-entry__text">
                             <div class="item-entry__cat">
-                                <a href="{% url 'detail' post.id %}">{{ post }}</a>
+                                <a href="{% url 'detail' post.id %}"><h2>{{ post }}</h2></a>
                             </div>
 
-<!--                            <h1 class="item-entry__title"><a href="single-standard.html"></a></h1>-->
+                            <p class="item-entry__title">{{ post.description|truncatewords:10}}</p>
 
                             <div class="item-entry__date">
-                                <a href="{% url 'detail' post.id%}">{{ post.created }}</a>
+                                <a href="single-standard.html">{{ post.created }}</a>
                             </div>
                         </div>
                     </div> <!-- item-entry -->
@@ -47,7 +47,7 @@
                 </article> <!-- end article -->
 
                             {% endif %}
-
+</section>
 
 
 {% endblock%}
