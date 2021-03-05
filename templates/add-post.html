@@ -11,6 +11,7 @@
                 </p>
             </div>
         </div>
+     <div class="container">
      {% if request.user.is_authenticated %}
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
@@ -22,6 +23,7 @@
         <button type="submit">Добавить поcт</button>
     </form>
     {% else %}
+     </div>
     <div class="row narrow">
             <div class="col-full s-content__header">
                 <h1 class="display-1 display-1--with-line-sep">Вам нужно зарегистрироваться</h1>

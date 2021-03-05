@@ -32,16 +32,6 @@
 
             {%endif%}
 
-            {% if request.user.is_authenticated %}
-
-            <form action="{% url 'like_post'%}" method="post">
-    {% csrf_token %}
-                <button type="submit" name="post_id" value="{{ post.id }}" class="btn btn-primary">like</button>
-
-            </form>
-
-            {%endif%}
-
 
             {% if request.user == post.user %}
             <a style="margin-right:20px;" href="{% url 'delete-post' post.id %}"><i class="fas fa-trash-alt fa-lg"></i></a>
@@ -93,9 +83,9 @@
 
                                     <div class="comment__meta">
                                         <div class="comment__time">{{ i.created }}</div>
-                                        <div class="comment__reply">
-                                            <a class="comment-reply-link" href="#0">Reply</a>
-                                        </div>
+<!--                                        <div class="comment__reply">-->
+<!--                                            <a class="comment-reply-link" href="#0">Reply</a>-->
+<!--                                        </div>-->
                                         {% if request.user == i.user %}
                                         <div class="comment__reply">
                                             <a class="comment-reply-link" href="{% url 'delete-comment' i.id%}">Delete</i></a>
@@ -128,13 +118,21 @@
             </div>
         </div>
      {% if request.user.is_authenticated %}
+     <div class="container">
     <form name="cForm" id="cForm" class="contact-form" method="post" action="">
                     <fieldset>
-    {% csrf_token %}
-    {{ form|crispy }}
-    <button type="submit">добавить коментарий</button>
+                        {% csrf_token %}
+<!--                        <div class="col md-6">-->
+<!--                        <input hidden name="user" type="text" value="{{request.user.pk}}"-->
+<!--                               </div>-->
+<!--                        <input hidden name="post" type="text" value="{{post.id}}"-->
+
+                        {{ form|crispy }}
+
+                        <button type="submit">добавить коментарий</button>
                 </fieldset>
     </form>
+     </div>
     {% else %}
     <div class="row narrow">
             <div class="col-full s-content__header">
@@ -144,7 +142,5 @@
         </div>
     {% endif %}
  </section>
-
-
 
 {% endblock %}

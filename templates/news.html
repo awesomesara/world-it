@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block content %}
+{% for post in list_news %}
+<section class="s-content">
+        <div style="display: flex !important; justify-content: center" class="row entries-wrap wide">
+            <div class="entries" style="display: flex !important;">
+                <article class="col-block" style="padding-right: 0 !important;">
+
+                    <div class="item-entry" data-aos="zoom-in" style="width: 500px !important; height: 650px !important; margin-top: 30px; display: flex; align-items: center; flex-direction: column ">
+                        <div class="item-entry__thumb" style="width: auto !important; height: auto !important;">
+<!--                            <a href="{% url 'detail' post.id %}" class="item-entry__thumb-link">-->
+<!--                                <img  src="{{ post.get_image }}"-->
+<!--                                     srcset="{{ post.get_image }}" alt="">-->
+<!--                            </a>-->
+                        </div>
+
+                        <div class="item-entry__text">
+                            <div class="item-entry__cat">
+                                <a href="{% url 'detail' post.id %}"><h2>{{ post.title }}</h2></a>
+                            </div>
+
+                            <p class="item-entry__title">{{ post.description}}</p>
+
+                        </div>
+                    </div> <!-- item-entry -->
+
+                </article> <!-- end article -->
+
+            </div> <!-- end entries -->
+        </div>
+</section>
+{% endfor %}
+
+
+
+{% endblock %}

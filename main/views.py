@@ -1,4 +1,7 @@
 from datetime import timedelta
+
+import requests
+from bs4 import BeautifulSoup
 from django.db.models import Q
 from django.forms import modelformset_factory
 from django.http import HttpResponse, HttpResponseRedirect
@@ -72,9 +75,14 @@ class PostDetailView(View):
 
     def post(self, request, *args, **kwargs):
         pk = self.kwargs['pk']
-        form = CommentForm(request.POST)
+        user_id = request.user.email
+        self.pk = kwargs.get('pk', None)
+        post = get_object_or_404(Post, pk=self.pk)
+        post_id = post.id
+        form = CommentForm(request.POST, user_id=user_id, post_id=post_id)
         if form.is_valid():
-            comment = form.save()
+            form.save()
+
         return redirect(reverse_lazy('detail', kwargs={'pk': pk}), Comment.get_absolute_url)
 
 
@@ -146,31 +154,14 @@ def post_detail(request, year, month, day, post):
                                    publish__year=year,
                                    publish__month=month,
                                    publish__day=day)
-    comments = post.comments.filter(active=True)
     is_favourite = False
     if post.favourite.filter(pk=request.user.id).exists():
         is_favourite = True
 
-    is_likes = False
-    if post.likes.filter(pk=request.user.id).exist():
-        is_likes = True
-
-
-    if request.method == 'POST':
-        comment_form = CommentForm(data=request.POST)
-        if comment_form.is_valid():
-            new_comment = comment_form.save(commit=False)
-            new_comment.post = post
-            new_comment.save()
-    else:
-        comment_form = CommentForm()
     return render(request,
                   'post-detail.html',
                  {'post': post,
-                  'is_favourite': is_favourite,
-                  'is_likes': is_likes,
-                  'comments': comments,
-                  'comment_form': comment_form})
+                  'is_favourite': is_favourite })
 
 def favourite_post_list(request):
     user = request.user
@@ -182,7 +173,6 @@ def favourite_post_list(request):
 
 def favourite_post(request, pk):
     post = get_object_or_404(Post, pk=pk)
-    print(post)
     if post.favourite.filter(pk=request.user).exists():
         post.favourite.remove(request.user)
     else:
@@ -190,11 +180,32 @@ def favourite_post(request, pk):
     return HttpResponseRedirect(post.get_absolute_url())
 
 
+# def news_view(request):
+#     url = 'https://limon.kg/'
+#     headers = {"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.72 Safari/537.36"}
+#     response = requests.get(url, headers=headers)
+#     list_news =[]
+#
+#     context = {'list_news': list_news}
+#
+#     if response.status_code == 200:
+#         html = response.text
+#         soup = BeautifulSoup(html, 'lxml')
+#         news = soup.find('div', class_="lastnewsblock").find('div', class_="row")
+#         all_news = news.find_all('div', class_="col-md-6 item item-list")
+#         # list_news = []
+#         for news in all_news:
+#             title = news.find('h4').text
+#             title = title.strip()
+#             description = news.find('div', class_="text").text
+#             description = description.strip()
+#             data = {'title': title, 'description': description}
+#             list_news.append(data)
+#         else:
+#             return HttpResponse('<h1>Page not found</h1>')
+#
+#     return render(request, 'news.html', context)
 
-def like_post(request):
-    post = get_object_or_404(Post, id=request.POST.get('post_id'))
-    post.likes.add(request.user)
-    return HttpResponseRedirect(post.get_absolute_url())
 
 
 

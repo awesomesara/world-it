@@ -86,9 +86,9 @@ class Comment(models.Model):
     def get_absolute_url(self):
         return reverse_lazy("blog_detail", args=[str(self.pk)])
 
-    def get_absolute_url2(self):
-        from django.shortcuts import reverse
-        return reverse('detail', kwargs={'pk': self.pk})
+    # def get_absolute_url2(self):
+    #     from django.shortcuts import reverse
+    #     return reverse('detail', kwargs={'pk': self.pk})
 
 
 

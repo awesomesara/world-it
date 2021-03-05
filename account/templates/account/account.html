@@ -5,9 +5,9 @@
 
         <div class="row narrow">
             <div class="col-full s-content__header">
-                <h1 class="display-1 display-1--with-line-sep">Account</h1>
+                <h1 style="font-weight: bolder !important;" class="display-1 display-1--with-line-sep">Account</h1>
                     <img src="{{ request.user.get_image_url }}" class="img-thumbnail" alt="...">
-                <h3 style="margin-top:40px;" class="display-1 display-1--with-line-sep">Name : {{request.user.name}}</h3>
+                <h3 style="margin-top:40px; " class="display-1 display-1--with-line-sep">Name : {{request.user.name}}</h3>
                 <h3 class="display-1 display-1--with-line-sep">Last name : {{request.user.last_name}}</h3>
                 <h3 class="display-1 display-1--with-line-sep">Email : {{request.user.email}}</h3>
 
@@ -21,7 +21,7 @@
 
 <div class="row narrow">
             <div class="col-full s-content__header">
-                <h1 style="margin-top: -90px;" class="display-1 display-1--with-line-sep">Your posts:</h1>
+                <h1 style="margin-top: -90px; font-weight: bold !important; " class="display-1 display-1--with-line-sep">Your posts:</h1>
 
             </div>
         </div>

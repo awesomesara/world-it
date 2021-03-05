@@ -13,6 +13,6 @@ urlpatterns = [
     path('delete-comment/<int:pk>/', DeleteCommentView.as_view(), name='delete-comment'),
     path('favourite-post/<int:pk>/', favourite_post, name='favourite_post'),
     path('favourites/', favourite_post_list, name='favourite_post_list'),
-    path('like/', like_post, name='like_post'),
+    # path('news/', news_view, name='news'),
 
 ]

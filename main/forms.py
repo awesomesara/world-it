@@ -19,6 +19,20 @@ class ImageForm(forms.ModelForm):
 
 
 class CommentForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        self.user_id = kwargs.pop('user_id', None)
+        self.post_id = kwargs.pop('post_id', None)
+        super(CommentForm, self).__init__(*args, **kwargs)
+
     class Meta:
         model = Comment
-        fields = '__all__'
+        fields = ['body', ]
+
+    def save(self, commit=True):
+        user = super(CommentForm, self).save(commit=False)
+        post = super(CommentForm, self).save(commit=False)
+        user.user_id = self.user_id
+        post.post_id = self.post_id
+        if commit:
+            user.save()
+        return user
