@@ -34,11 +34,11 @@
 
             {% if request.user.is_authenticated %}
 
-                {% if is_likes %}
-                <a style="margin-right:20px;" href="{% url 'likes_post' pk=post.id %}">0 {{ like_post }}</i></a>
-                 {% else %}
-                <a style="margin-right:20px;" href="{% url 'likes_post' pk=post.id %}">00 {{like_post}}</i></a>
-                {% endif %}
+            <form action="{% url 'like_post'%}" method="post">
+    {% csrf_token %}
+                <button type="submit" name="post_id" value="{{ post.id }}" class="btn btn-primary">like</button>
+
+            </form>
 
             {%endif%}
 
@@ -139,9 +139,7 @@
     <div class="row narrow">
             <div class="col-full s-content__header">
                 <h1 class="display-1 display-1--with-line-sep">Вам нужно зарегистрироваться для того чтобы вы смогли оставить свой коментарий</h1>
-                <p class="lead">
-                    опс
-                </p>
+
             </div>
         </div>
     {% endif %}

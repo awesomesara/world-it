@@ -182,6 +182,7 @@ def favourite_post_list(request):
 
 def favourite_post(request, pk):
     post = get_object_or_404(Post, pk=pk)
+    print(post)
     if post.favourite.filter(pk=request.user).exists():
         post.favourite.remove(request.user)
     else:
@@ -189,23 +190,11 @@ def favourite_post(request, pk):
     return HttpResponseRedirect(post.get_absolute_url())
 
 
-def likes_post(request, pk):
-    post = get_object_or_404(Post, pk=pk)
-    if post.favourite.filter(pk=request.user):
-        post.likes.add(request.user)
-    # post = Post.objects.get(pk=pk)
-    like_post = len(post.likes.all())
-    context = {
-        'like_post': like_post
-    }
-    return HttpResponseRedirect(post.get_absolute_url(), context)
+
+def like_post(request):
+    post = get_object_or_404(Post, id=request.POST.get('post_id'))
+    post.likes.add(request.user)
+    return HttpResponseRedirect(post.get_absolute_url())
 
 
-# def likes_post(request, pk):
-#     post = get_object_or_404(Post, pk=pk)
-#     if post.likes.filter(pk=request.user).exists():
-#         post.likes.remove(request.user)
-#     else:
-#         post.likes.add(request.user)
-#     return HttpResponseRedirect(post.get_absolute_url())
 

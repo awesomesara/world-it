@@ -3,3 +3,5 @@ psycopg2-binary==2.8.5
 Pillow==7.1
 python-decouple
 django-crispy-forms
+
+

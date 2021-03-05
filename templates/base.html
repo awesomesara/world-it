@@ -81,12 +81,13 @@
                 {%endif%}
                 <li><a href="{% url 'add-post'%}" title="">Add post</a></li>
                 {% if not request.user.is_authenticated %}
-                <li><a href="{% url 'registration' %}"><i class="fa fa-registered fa-lg" aria-hidden="true"></i></a></li>
-                <li><a href="{% url 'login' %}"><i class="far fa-user-circle fa-lg"></i></a></li>
+                <li><a href="{% url 'registration' %}"><i class="fa fa-registered fa-2x" aria-hidden="true"></i></a></li>
+                <li><a href="{% url 'login' %}"><i class="far fa-user-circle fa-2x"></i></a></li>
                 {% else %}
-                <li><a href="{% url 'profile' %}"><i class="fas fa-user-circle fa-lg"></i></a></li>
-                <li><a href="{% url 'logout' %}"><i class="fas fa-sign-out-alt fa-lg"></i></a></li>
+                <li><a href="{% url 'profile' %}"><i class="fas fa-user-circle fa-2x"></i></a></li>
+                <li><a href="{% url 'logout' %}"><i class="fas fa-sign-out-alt fa-2x"></i></a></li>
                 {% endif %}
+                <li> <a href="https://t.me/tuthomies_bot"><i class="fab fa-telegram-plane fa-2x"></i></a></li>
             </ul> <!-- end header__nav -->
 
             <a href="#0" title="Close Menu" class="header__overlay-close close-mobile-menu">Close</a>
@@ -165,8 +166,9 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
         </div> <!-- end s-footer__bottom -->
 
         <div class="go-top">
-            <a class="smoothscroll" title="Back to Top" href="#top"></a>
+            <li><a class="smoothscroll" title="Back to Top" href="#top"></a></li>
         </div>
+
 
     </footer> <!-- end s-footer -->
 
