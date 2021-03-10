@@ -1,9 +1,10 @@
 from datetime import timedelta
+
 from django.db.models import Q
 from django.forms import modelformset_factory
 from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render, get_object_or_404, redirect
-from django.urls import reverse_lazy
+from django.shortcuts import get_object_or_404, redirect
+
 from django.utils import timezone
 from django.views.generic import ListView, DetailView, DeleteView, View
 from .forms import PostForm, ImageForm, CommentForm
@@ -72,9 +73,14 @@ class PostDetailView(View):
 
     def post(self, request, *args, **kwargs):
         pk = self.kwargs['pk']
-        form = CommentForm(request.POST)
+        user_id = request.user.email
+        self.pk = kwargs.get('pk', None)
+        post = get_object_or_404(Post, pk=self.pk)
+        post_id = post.id
+        form = CommentForm(request.POST, user_id=user_id, post_id=post_id)
         if form.is_valid():
-            comment = form.save()
+            form.save()
+
         return redirect(reverse_lazy('detail', kwargs={'pk': pk}), Comment.get_absolute_url)
 
 
@@ -140,32 +146,22 @@ class DeleteCommentView(DeleteView):
         messages.add_message(request, messages.SUCCESS, 'Comment successfully deleted!')
         return HttpResponseRedirect(success_url)
 
+
 def post_detail(request, year, month, day, post):
     post = get_object_or_404(Post, slug=post,
                                    status='published',
                                    publish__year=year,
                                    publish__month=month,
                                    publish__day=day)
-    comments = post.comments.filter(active=True)
     is_favourite = False
     if post.favourite.filter(pk=request.user.id).exists():
         is_favourite = True
 
-
-    if request.method == 'POST':
-        comment_form = CommentForm(data=request.POST)
-        if comment_form.is_valid():
-            new_comment = comment_form.save(commit=False)
-            new_comment.post = post
-            new_comment.save()
-    else:
-        comment_form = CommentForm()
     return render(request,
                   'post-detail.html',
                  {'post': post,
-                  'is_favourite': is_favourite,
-                  'comments': comments,
-                  'comment_form': comment_form})
+                  'is_favourite': is_favourite })
+
 
 def favourite_post_list(request):
     user = request.user
@@ -175,6 +171,7 @@ def favourite_post_list(request):
     }
     return render(request, 'post_favourite_list.html', context)
 
+
 def favourite_post(request, pk):
     post = get_object_or_404(Post, pk=pk)
     if post.favourite.filter(pk=request.user).exists():
@@ -182,4 +179,3 @@ def favourite_post(request, pk):
     else:
         post.favourite.add(request.user)
     return HttpResponseRedirect(post.get_absolute_url())
-

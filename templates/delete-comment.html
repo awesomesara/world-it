@@ -4,15 +4,15 @@
 
         <div class="row narrow">
             <div class="col-full s-content__header">
-                <h1 class="display-1 display-1--with-line-sep">Delete Post:</h1>
+                <h1 class="display-1 display-1--with-line-sep">Delete Comment:</h1>
                 <p class="lead">
-                    Are you sure want to delete this recipe?
+                    Are you sure want to delete this comment?
                 </p>
             </div>
         </div>
     <form method="post">
     {% csrf_token %}
-     <input class="btn btn-primary" type="submit" value="Yes">
+     <input style="margin-left: 570px;" class="btn btn-primary" type="submit" value="Yes">
      <a class="btn" href="{% url 'home' %}" role="button">Cancel</a>
      </form>
 
