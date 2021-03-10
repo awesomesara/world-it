@@ -1,12 +1,10 @@
 from datetime import timedelta
 
-import requests
-from bs4 import BeautifulSoup
 from django.db.models import Q
 from django.forms import modelformset_factory
 from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render, get_object_or_404, redirect
-from django.urls import reverse_lazy
+from django.shortcuts import get_object_or_404, redirect
+
 from django.utils import timezone
 from django.views.generic import ListView, DetailView, DeleteView, View
 from .forms import PostForm, ImageForm, CommentForm
@@ -148,6 +146,7 @@ class DeleteCommentView(DeleteView):
         messages.add_message(request, messages.SUCCESS, 'Comment successfully deleted!')
         return HttpResponseRedirect(success_url)
 
+
 def post_detail(request, year, month, day, post):
     post = get_object_or_404(Post, slug=post,
                                    status='published',
@@ -163,6 +162,7 @@ def post_detail(request, year, month, day, post):
                  {'post': post,
                   'is_favourite': is_favourite })
 
+
 def favourite_post_list(request):
     user = request.user
     favourite_post = user.favourite.all()
@@ -171,6 +171,7 @@ def favourite_post_list(request):
     }
     return render(request, 'post_favourite_list.html', context)
 
+
 def favourite_post(request, pk):
     post = get_object_or_404(Post, pk=pk)
     if post.favourite.filter(pk=request.user).exists():
@@ -178,34 +179,3 @@ def favourite_post(request, pk):
     else:
         post.favourite.add(request.user)
     return HttpResponseRedirect(post.get_absolute_url())
-
-
-# def news_view(request):
-#     url = 'https://limon.kg/'
-#     headers = {"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.72 Safari/537.36"}
-#     response = requests.get(url, headers=headers)
-#     list_news =[]
-#
-#     context = {'list_news': list_news}
-#
-#     if response.status_code == 200:
-#         html = response.text
-#         soup = BeautifulSoup(html, 'lxml')
-#         news = soup.find('div', class_="lastnewsblock").find('div', class_="row")
-#         all_news = news.find_all('div', class_="col-md-6 item item-list")
-#         # list_news = []
-#         for news in all_news:
-#             title = news.find('h4').text
-#             title = title.strip()
-#             description = news.find('div', class_="text").text
-#             description = description.strip()
-#             data = {'title': title, 'description': description}
-#             list_news.append(data)
-#         else:
-#             return HttpResponse('<h1>Page not found</h1>')
-#
-#     return render(request, 'news.html', context)
-
-
-
-
